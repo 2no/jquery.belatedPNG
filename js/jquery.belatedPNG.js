@@ -20,7 +20,7 @@ Absolutely everything in this script is SILLY.  I know this.  IE's rendering of 
 * jquery.belatedPNG: Adds IE6/7/8 support: PNG images for CSS background-image and HTML <IMG/>.
 * Author: Kazunori Ninomiya
 * Email: Kazunori.Ninomiya@gmail.com
-* Version: 0.0.1
+* Version: 0.0.2
 * Licensed under the MIT License: http://dillerdesign.com/experiment/DD_belatedPNG/#license
 *
 * Example usage:
@@ -262,7 +262,7 @@ Absolutely everything in this script is SILLY.  I know this.  IE's rendering of 
 			bgR = thisStyle.backgroundRepeat;
 			dC = {'T':1, 'R':size.W+fudge, 'B':size.H, 'L':1+fudge};
 			altC = { 'X': {'b1': 'L', 'b2': 'R', 'd': 'W'}, 'Y': {'b1': 'T', 'b2': 'B', 'd': 'H'} };
-			if (bgR != 'repeat' || el.isImg) {
+            if (bgR != 'repeat') {
 				c = {'T':(bg.Y), 'R':(bg.X+size.w), 'B':(bg.Y+size.h), 'L':(bg.X)};
 				if (bgR.search('repeat-') != -1) {
 					v = bgR.split('repeat-')[1].toUpperCase();
@@ -337,7 +337,10 @@ Absolutely everything in this script is SILLY.  I know this.  IE's rendering of 
 					}
 					el.vml[v].shape.stroked = false;
 					if (el.nodeName == 'IMG') {
-						el.vml[v].fill.type = 'frame';
+						var width  = el.width / 96 * 72;
+						var height = el.height / 96 * 72;
+						el.vml[v].fill.type = 'tile';
+						el.vml[v].fill.size = width + 'pt,' + height + 'pt';
 					}
 					else if (el.currentStyle) {
 						var elStyle = el.currentStyle;
@@ -347,8 +350,8 @@ Absolutely everything in this script is SILLY.  I know this.  IE's rendering of 
 							img.src = vmlBg.substr(5, vmlBg.lastIndexOf('")')-5);
 							var run = img.runtimeStyle;
 							var mem = { w: run.width, h: run.height };
-							run.width  = "auto";
-							run.height = "auto";
+							run.width  = 'auto';
+							run.height = 'auto';
 							w = img.width;
 							h = img.height;
 							run.width  = mem.w;
@@ -357,7 +360,7 @@ Absolutely everything in this script is SILLY.  I know this.  IE's rendering of 
 							var height = h / 96 * 72;
 							el.vml[v].fill.type = 'tile';
 							el.vml[v].fill.aspect = 'atleast';
-							el.vml[v].fill.size = width + 'pt,' + height + 'pt'
+							el.vml[v].fill.size = width + 'pt,' + height + 'pt';
 						}
 					}
 					el.vml[v].shape.appendChild(el.vml[v].fill);
