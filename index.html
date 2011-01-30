@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta name="Description" content="" />
+<meta name="Keywords" content="" />
+<title>jquery.belatedPNG.js サンプル</title>
+<style type="text/css">
+/* <![CDATA[ */
+div#pngfix,
+div#normal {
+	width: 400px;
+	height: 400px;
+	background: url(test.png) repeat;
+	float: left;
+}
+/* ]]> */
+</style>
+<script src="js/jquery.js" type="text/javascript"></script>
+<script src="js/jquery.belatedPNG.js" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+(function($) {
+	$(function() {
+		$("#pngfix").fixPng();
+		$("input[type='button']").click(function() {
+			$("#pngfix, #normal").animate({opacity: "toggle"});
+		});
+	});
+})(jQuery);
+//]]>
+</script>
+</head>
+
+<body>
+<h1>jquery.belatedPNG.js</h1>
+<h2>本家（<a href="http://www.dillerdesign.com/experiment/DD_belatedPNG/">DD_belatedPNG</a>）からの変更点</h2>
+<ul>
+<li>jquery&nbsp;用のプラグインに変更</li>
+<li>IE7/8&nbsp;も&nbsp;pngFIx&nbsp;が可能に（アルファチャンネル＋半透明で起きるバグに対処）</li>
+<li>ズームに対応</li>
+</ul>
+<h3>IE6/7/8&nbsp;用サンプル</h3>
+<p>左が何もしていない状態、右が&nbsp;jquery.belatedPNG&nbsp;使用後</p>
+<p><input type="button" value="フェードイン・アウトテスト" /></p>
+<div id="normal"></div>
+<div id="pngfix"></div>
+</body>
+</html>
