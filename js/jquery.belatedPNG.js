@@ -20,7 +20,7 @@ Absolutely everything in this script is SILLY.  I know this.  IE's rendering of 
 * jquery.belatedPNG: Adds IE6/7/8 support: PNG images for CSS background-image and HTML <IMG/>.
 * Author: Kazunori Ninomiya
 * Email: Kazunori.Ninomiya@gmail.com
-* Version: 0.0.2
+* Version: 0.0.3
 * Licensed under the MIT License: http://dillerdesign.com/experiment/DD_belatedPNG/#license
 *
 * Example usage:
@@ -45,8 +45,8 @@ Absolutely everything in this script is SILLY.  I know this.  IE's rendering of 
 			screenStyleSheet.setAttribute('media', 'screen');
 			doc.documentElement.firstChild.insertBefore(screenStyleSheet, doc.documentElement.firstChild.firstChild);
 			if (screenStyleSheet.styleSheet) {
-				var selector = !$.support.opacity && $.support.style
-					? this.ns + '\\:shape, ' + this.ns + '\\:fill' : this.ns + '\\:*';
+				var selector = !$.support.opacity && !$.support.style
+					? this.ns + '\\:*' : this.ns + '\\:shape, ' + this.ns + '\\:fill';
 				screenStyleSheet = screenStyleSheet.styleSheet;
 				screenStyleSheet.addRule(selector, 'behavior:url(#default#VML);');
 				screenStyleSheet.addRule(this.ns + '\\:shape', 'position:absolute;');
@@ -262,7 +262,7 @@ Absolutely everything in this script is SILLY.  I know this.  IE's rendering of 
 			bgR = thisStyle.backgroundRepeat;
 			dC = {'T':1, 'R':size.W+fudge, 'B':size.H, 'L':1+fudge};
 			altC = { 'X': {'b1': 'L', 'b2': 'R', 'd': 'W'}, 'Y': {'b1': 'T', 'b2': 'B', 'd': 'H'} };
-            if (bgR != 'repeat') {
+			if (bgR != 'repeat') {
 				c = {'T':(bg.Y), 'R':(bg.X+size.w), 'B':(bg.Y+size.h), 'L':(bg.X)};
 				if (bgR.search('repeat-') != -1) {
 					v = bgR.split('repeat-')[1].toUpperCase();
@@ -384,7 +384,7 @@ Absolutely everything in this script is SILLY.  I know this.  IE's rendering of 
 	
 	$.extend($.fn, {
 		fixPng: function() {
-			if (doc.attachEvent) {
+			if (!$.support.opacity) { // IE6/7/8
 				$.each(this, function() {
 					DD_belatedPNG.fixPng(this);
 				});
