@@ -20,7 +20,7 @@ Absolutely everything in this script is SILLY.  I know this.  IE's rendering of 
 * jquery.belatedPNG: Adds IE6/7/8 support: PNG images for CSS background-image and HTML <IMG/>.
 * Author: Kazunori Ninomiya
 * Email: Kazunori.Ninomiya@gmail.com
-* Version: 0.0.3
+* Version: 0.0.4
 * Licensed under the MIT License: http://dillerdesign.com/experiment/DD_belatedPNG/#license
 *
 * Example usage:
@@ -45,7 +45,7 @@ Absolutely everything in this script is SILLY.  I know this.  IE's rendering of 
 			screenStyleSheet.setAttribute('media', 'screen');
 			doc.documentElement.firstChild.insertBefore(screenStyleSheet, doc.documentElement.firstChild.firstChild);
 			if (screenStyleSheet.styleSheet) {
-				var selector = !$.support.opacity && !$.support.style
+				var selector = !doc.documentMode || doc.documentMode < 8
 					? this.ns + '\\:*' : this.ns + '\\:shape, ' + this.ns + '\\:fill';
 				screenStyleSheet = screenStyleSheet.styleSheet;
 				screenStyleSheet.addRule(selector, 'behavior:url(#default#VML);');
@@ -384,7 +384,7 @@ Absolutely everything in this script is SILLY.  I know this.  IE's rendering of 
 	
 	$.extend($.fn, {
 		fixPng: function() {
-			if (!$.support.opacity) { // IE6/7/8
+			if ([,] != 0) { // IE6/7/8
 				$.each(this, function() {
 					DD_belatedPNG.fixPng(this);
 				});
