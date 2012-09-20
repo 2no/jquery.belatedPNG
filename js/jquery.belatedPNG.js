@@ -45,7 +45,7 @@ Absolutely everything in this script is SILLY.  I know this.  IE's rendering of 
 			screenStyleSheet.setAttribute('media', 'screen');
 			firstChild.insertBefore(screenStyleSheet, firstChild.firstChild);
 			if (screenStyleSheet.styleSheet) {
-				var selector = !$.support.opacity && !$.support.style
+				var selector = !doc.documentMode || doc.documentMode < 8
 					? this.ns + '\\:*' : this.ns + '\\:shape, ' + this.ns + '\\:fill';
 				screenStyleSheet = screenStyleSheet.styleSheet;
 				screenStyleSheet.addRule(selector, 'behavior:url(#default#VML);');
