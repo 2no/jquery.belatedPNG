@@ -467,6 +467,46 @@ Absolutely everything in this script is SILLY.  I know this.  IE's rendering of 
 				});
 			}
 			return this;
+		},
+
+		/**
+		 * Forcely apply changes to VML by firing propertychange event.
+		 * It's mainly for changes applied by updating parent element's class name.
+		 * Pass property names (background|display|opacity) as argument,
+		 * or no argument you want to refresh all about them.
+		 * 
+		 * Example:
+		 * $(el).refreshPng(); // Refresh all
+		 * $(el).refreshPng('background');
+		 * $(el).refreshPng('background', 'display');
+		 */
+		refreshPng: function(/* prop1, prop2, prop3 */) {
+			var defaults, args, props;
+			if ([,] == 0) { return this; } // Not IE6/7/8
+			defaults = ['background', 'display', 'opacity'];
+			args = arguments.length ? $.makeArray(arguments) : defaults;
+			props = {};
+			$.each(args, function(i, name){
+				props[name] = true;
+			});
+			this.each(function(){
+				var $el, opacity;
+				$el = $(this);
+				if(props.background){
+					$el.prop('change-background', true);
+				}
+				if(props.display){
+					$el.prop('style.display', true);
+				}
+				if(props.opacity){
+					opacity = [1];
+					$el.parents('*').each(function(){
+						opacity.push($(this).css('opacity'));
+					});
+					$el.css('opacity', Math.min.apply(null, opacity));
+				}
+			});
+			return this;
 		}
 	});
 })(jQuery);
