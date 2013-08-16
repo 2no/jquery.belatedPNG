@@ -467,6 +467,32 @@ Absolutely everything in this script is SILLY.  I know this.  IE's rendering of 
 				});
 			}
 			return this;
+		},
+
+		/**
+		 * Forcely apply changes to VML by firing propertychange event.
+		 * It's mainly for changes applied by updating parent element's class name.
+		 *
+		 * @param Boolean opacity : Update opacity or not
+		 */
+		refreshPng: function(opacity) {
+			if ([,] == 0) { return this; } // Not IE6/7/8
+			this.each(function(){
+				var $el, opacities;
+				$el = $(this);
+				$el.prop({
+					'change-background': true,
+					'style.display': true // For IE7
+				});
+				if(opacity){
+					opacities = [1];
+					$el.parents('*').each(function(){
+						opacities.push($(this).css('opacity'));
+					});
+					$el.css('opacity', Math.min.apply(null, opacities));
+				}
+			});
+			return this;
 		}
 	});
 })(jQuery);
